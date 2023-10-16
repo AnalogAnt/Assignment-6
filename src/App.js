@@ -1,6 +1,7 @@
 import {Component} from 'react'
 import ReactPopUp from './components/ReactPopUp'
 import {CustomButton} from './styledComponents'
+import ImageButton from './components/ImageButton'
 import './App.css'
 
 const choicesList = [
@@ -33,18 +34,18 @@ class App extends Component {
   chooseIcon = d => {
     const random = Math.floor(Math.random() * 101) % 3
     const opponentId = choicesList[random].id
-    if (choicesList[d].id === 'ROCK') {
+    if (d.id === 'ROCK') {
       if (opponentId === 'ROCK') {
         this.setState({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'IT IS DRAW',
         })
       } else if (opponentId === 'PAPER') {
         this.setState(prevState => ({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'YOU LOSE',
           score: prevState.score - 1,
@@ -52,17 +53,17 @@ class App extends Component {
       } else if (opponentId === 'SCISSORS') {
         this.setState(prevState => ({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'YOU WON',
           score: prevState.score + 1,
         }))
       }
-    } else if (choicesList[d].id === 'PAPER') {
+    } else if (d.id === 'PAPER') {
       if (opponentId === 'ROCK') {
         this.setState(prevState => ({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'YOU WON',
           score: prevState.score + 1,
@@ -70,24 +71,24 @@ class App extends Component {
       } else if (opponentId === 'PAPER') {
         this.setState({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'IT IS DRAW',
         })
       } else if (opponentId === 'SCISSORS') {
         this.setState(prevState => ({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'YOU LOSE',
           score: prevState.score - 1,
         }))
       }
-    } else if (choicesList[d].id === 'SCISSORS') {
+    } else if (d.id === 'SCISSORS') {
       if (opponentId === 'ROCK') {
         this.setState(prevState => ({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'YOU LOSE',
           score: prevState.score - 1,
@@ -95,7 +96,7 @@ class App extends Component {
       } else if (opponentId === 'PAPER') {
         this.setState(prevState => ({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'YOU WON',
           score: prevState.score + 1,
@@ -103,7 +104,7 @@ class App extends Component {
       } else if (opponentId === 'SCISSORS') {
         this.setState({
           matchOver: true,
-          playerChoice: choicesList[d],
+          playerChoice: d,
           opponentChoice: choicesList[random],
           result: 'IT IS DRAW',
         })
@@ -145,43 +146,10 @@ class App extends Component {
     ) : (
       <div className="home">
         <div className="two">
-          <button
-            onClick={() => this.chooseIcon(0)}
-            type="button"
-            className="iconn"
-            data-testid="rockButton"
-          >
-            <img
-              src={choicesList[0].imageUrl}
-              className="icon"
-              alt={choicesList[0].id}
-            />
-          </button>
-          <button
-            onClick={() => this.chooseIcon(1)}
-            type="button"
-            className="iconn"
-            data-testid="scissorsButton"
-          >
-            <img
-              src={choicesList[1].imageUrl}
-              className="icon"
-              alt={choicesList[1].id}
-            />
-          </button>
+          {choicesList.map(each => (
+            <ImageButton details={each} key={each.id} on={this.chooseIcon} />
+          ))}
         </div>
-        <button
-          onClick={() => this.chooseIcon(2)}
-          type="button"
-          className="iconn"
-          data-testid="paperButton"
-        >
-          <img
-            src={choicesList[2].imageUrl}
-            className="icon"
-            alt={choicesList[2].id}
-          />
-        </button>
       </div>
     )
     return (
